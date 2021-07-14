@@ -1,0 +1,11 @@
+#! /bin/bash
+
+if [ -z "${1}" ]; then echo "What version will you build?" && read -r VERSION; else VERSION=$1; fi
+
+BASE_DIR=$(pwd)
+[ ! -d "$BASE_DIR/versions/$VERSION" ] && echo "Directory $BASE_DIR/versions/$VERSION DOES NOT exists." && exit 1
+
+docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 --tag "mallardduck/base-php:${VERSION}-cli" ./versions/${VERSION}/base-cli &&
+docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 --tag "mallardduck/base-php:${VERSION}-fpm" ./versions/${VERSION}/base-fpm &&
+docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 --tag "mallardduck/base-php:${VERSION}-cache" ./versions/${VERSION}/cache &&
+docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 --tag "mallardduck/base-php:${VERSION}-mysql" ./versions/${VERSION}/mysql
