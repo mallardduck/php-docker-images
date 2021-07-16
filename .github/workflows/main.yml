@@ -41,6 +41,7 @@ jobs:
         name: Build and push PHP 8.0 CLI
         uses: docker/build-push-action@v2
         with:
+          platforms: linux/amd64,linux/arm64
           context: ./versions/8.0/base-cli
           push: true
           tags: mallardduck/base-php:8.0-cli
@@ -48,6 +49,7 @@ jobs:
         name: Build and push PHP 8.0 FPM
         uses: docker/build-push-action@v2
         with:
+          platforms: linux/amd64,linux/arm64
           context: ./versions/8.0/base-fpm
           push: true
           tags: mallardduck/base-php:8.0-fpm
