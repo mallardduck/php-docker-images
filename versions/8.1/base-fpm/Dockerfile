@@ -40,3 +40,8 @@ RUN docker-php-ext-install opcache \
 
 # Clean up some build only things...
 RUN apk del autoconf gcc make autoconf pkgconfig g++
+
+RUN sed -i "s#;error_log = log/php-fpm.log#error_log = /dev/stderr#g" /usr/local/etc/php-fpm.conf
+
+RUN sed -i "s#;error_log = syslog#error_log = /dev/stderr#g" /usr/local/etc/php/php.ini-development
+RUN sed -i "s#;error_log = syslog#error_log = /dev/stderr#g" /usr/local/etc/php/php.ini-production
