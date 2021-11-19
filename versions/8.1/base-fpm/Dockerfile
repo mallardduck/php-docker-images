@@ -18,6 +18,9 @@ RUN apk add vim zip unzip tar netcat-openbsd autoconf gcc make autoconf pkgconfi
     && apk add icu-libs icu-dev libzip libzip-dev freetype-dev libcap \
     && apk add libpng libpng-dev libwebp libwebp-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev
 
+# Add fcgi client
+RUN apk add fcgi
+
 # Install default PHP base extensions
 RUN docker-php-ext-install exif pcntl bcmath intl zip
 RUN pecl install msgpack \
