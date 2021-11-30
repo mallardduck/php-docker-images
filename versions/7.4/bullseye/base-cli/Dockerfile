@@ -1,5 +1,5 @@
 # GENERATED FILE: Dockerfile for PHP images
-FROM php:8.1-rc-cli-alpine3.14
+FROM php:7.4-cli-alpine3.14
 
 MAINTAINER Dan Pock <self@danpock.me>
 LABEL maintainer="Dan Pock"
