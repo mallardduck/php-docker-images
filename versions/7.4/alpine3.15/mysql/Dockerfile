@@ -1,5 +1,5 @@
 # GENERATED FILE: Dockerfile for PHP images
-FROM mallardduck/base-php:7.4-cache
+FROM mallardduck/base-php:7.4-cache-alpine
 
 MAINTAINER Dan Pock <self@danpock.me>
 LABEL maintainer="Dan Pock"
