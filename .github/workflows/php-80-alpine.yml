@@ -1,6 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-
-name: CI
+name: PHP 8.0 Alpine builds
 
 # Controls when the workflow will run
 on:
@@ -42,33 +41,41 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64,linux/arm64
-          context: ./versions/8.0/base-cli
+          context: ./versions/8.0/alpine3.15/base-cli
           push: true
-          tags: mallardduck/base-php:8.0-cli
+          tags: mallardduck/base-php:8.0-cli-alpine
       -
         name: Build and push PHP 8.0 FPM
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64,linux/arm64
-          context: ./versions/8.0/base-fpm
+          context: ./versions/8.0/alpine3.15/base-fpm
           push: true
-          tags: mallardduck/base-php:8.0-fpm
+          tags: mallardduck/base-php:8.0-fpm-alpine
       -
         name: Build and push PHP 8.0 cache
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64,linux/arm64
-          context: ./versions/8.0/cache
+          context: ./versions/8.0/alpine3.15/cache
           push: true
-          tags: mallardduck/base-php:8.0-cache
+          tags: mallardduck/base-php:8.0-cache-alpine
       -
         name: Build and push PHP 8.0 MySQL
         uses: docker/build-push-action@v2
         with:
           platforms: linux/amd64,linux/arm64
-          context: ./versions/8.0/mysql
+          context: ./versions/8.0/alpine3.15/mysql
           push: true
-          tags: mallardduck/base-php:8.0-mysql
+          tags: mallardduck/base-php:8.0-mysql-alpine
+      -
+        name: Build and push PHP 8.0 Swoole
+        uses: docker/build-push-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+          context: ./versions/8.0/alpine3.15/swoole
+          push: true
+          tags: mallardduck/base-php:8.0-swoole-alpine
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
