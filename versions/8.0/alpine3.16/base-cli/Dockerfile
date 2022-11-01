@@ -1,5 +1,5 @@
 # GENERATED FILE: Dockerfile for PHP images
-FROM php:8.1-cli-bullseye
+FROM php:8.0-cli-alpine3.16
 
 MAINTAINER Dan Pock <self@danpock.me>
 LABEL maintainer="Dan Pock"
@@ -9,16 +9,19 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod +x /usr/local/bin/install-php-extensions
 
 # Mandatory updates and dep installs
-RUN apt-get update && apt-get upgrade && apt-get install bash-completion \
+RUN apk upgrade --no-cache \
     && pecl channel-update pecl.php.net
 
-# Set TZ info
-ENV TZ='Etc/UTC'
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Add bash and basic setup tools
+RUN apk add --no-cache bash bash-completion alpine-conf
 
-RUN apt-get install -y vim zip unzip tar netcat-openbsd autoconf gcc make autoconf pkg-config g++ \
-    && apt-get install -y libicu-dev libzip-dev libfreetype6-dev libcap-ng-dev \
-    && apt-get install -y libpng-dev libwebp-dev libjpeg62-turbo-dev libwebp-dev zlib1g-dev libxpm-dev
+# Set TZ info
+ENV TZ='UTC'
+RUN setup-timezone -z $TZ
+
+RUN apk add --no-cache vim zip unzip tar netcat-openbsd autoconf gcc make autoconf pkgconfig g++ \
+    && apk add --no-cache icu-libs icu-dev libzip libzip-dev freetype-dev libcap \
+    && apk add --no-cache libpng libpng-dev libwebp libwebp-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev
 # Install default PHP base extensions
 RUN docker-php-ext-install exif pcntl bcmath intl zip
 RUN pecl install msgpack \
@@ -29,8 +32,7 @@ RUN install-php-extensions gd-stable
 
 # Install deployment tools (node/composer/yarn/etc)
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
-    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get install -y nodejs && corepack enable
+    && apk add --no-cache nodejs yarn
 
 
 # Ensure all fpm base images install, but not configure opcache...
